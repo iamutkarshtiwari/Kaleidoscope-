@@ -1,18 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.iamutkarshtiwari.kaleidoscope.HomeActivity">
+    tools:context="com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-</android.support.constraint.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/mercari_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="8dp"
+            android:clickable="false"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/mercari_logo"
+                android:layout_width="55dp"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/white_circle_bg"
+                android:src="@drawable/mercari" />
+
+            <RelativeLayout
+                android:id="@+id/search_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/mercari_logo"
+                android:background="@drawable/ripple"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:id="@+id/seach_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:clickable="false"
+                    android:src="@drawable/ic_search" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toRightOf="@id/seach_icon"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="@string/mercari"
+                    android:textColor="@color/colorRed"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            style="@style/TabStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_bar_size"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="1dp"
+            app:tabMode="fixed" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include layout="@layout/content_home" />
+
+
+    <RelativeLayout
+        android:id="@+id/fab"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:background="@drawable/bg_exhibit"
+        android:clickable="false"
+        android:elevation="8dp"
+        app:layout_behavior="com.github.iamutkarshtiwari.kaleidoscope.utils.FloatingActionButtonBehavior">
+
+        <TextView
+            android:id="@+id/sell_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:text="@string/sell"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/camera_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/sell_label"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:clickable="false"
+            android:src="@drawable/ic_camera" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
