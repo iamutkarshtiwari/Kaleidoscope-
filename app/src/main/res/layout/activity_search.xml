@@ -7,6 +7,9 @@
     android:background="@color/searchBGColor"
     tools:context="com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity">
 
+
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -41,7 +44,7 @@
     </RelativeLayout>
 
     <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/floating_search_view"
+        android:id="@+id/floating_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:floatingSearch_close_search_on_keyboard_dismiss="false"
@@ -50,6 +53,10 @@
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_suggestionsListAnimDuration="250"
         app:layout_scrollFlags="scroll|enterAlways"
+        android:background="@drawable/ripple"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

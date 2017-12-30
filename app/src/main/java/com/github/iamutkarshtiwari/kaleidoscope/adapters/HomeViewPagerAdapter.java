@@ -9,6 +9,8 @@ import com.github.iamutkarshtiwari.kaleidoscope.fragments.HomeFragment;
 
 public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
+    private int mPagerCount = 2;
+
     public HomeViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -29,18 +31,12 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
             args.putString("data_source", "all.json");
             fragment.setArguments(args);
 
-        } else if (position == 2) {
-            fragment = new HomeFragment();
-            args = new Bundle();
-            args.putString("data_source", "women.json");
-            fragment.setArguments(args);
-            fragment.setArguments(args);
         }
         return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return mPagerCount;
     }
 }

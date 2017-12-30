@@ -10,21 +10,22 @@
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/mercari_logo"
+            android:id="@+id/kaleidoscope_logo"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/mercari" />
+            android:src="@drawable/kaleidoscope" />
 
         <TextView
-            android:id="@+id/mercari_subtitle"
+            android:id="@+id/kaleidoscope_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/mercari_logo"
+            android:layout_below="@id/kaleidoscope_logo"
+            android:layout_marginTop="16dp"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
-            android:text="@string/mercari_subtitle"
-            android:textColor="@color/colorBlack"
+            android:text="@string/kaleidoscope_subtitle"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp" />
 
     </RelativeLayout>
