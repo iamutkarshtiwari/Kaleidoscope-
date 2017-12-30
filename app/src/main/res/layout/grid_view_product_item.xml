@@ -101,11 +101,12 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/sold_out"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
+            android:id="@+id/favourite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="16dp"
             android:scaleType="fitXY"
-            android:src="@drawable/badge_soldout" />
+            android:src="@drawable/ic_favourite" />
 
     </RelativeLayout>
 

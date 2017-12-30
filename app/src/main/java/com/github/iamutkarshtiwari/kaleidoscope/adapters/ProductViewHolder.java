@@ -16,7 +16,7 @@ public class ProductViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         productImage = (ImageView) itemView.findViewById(R.id.product_image);
-        soldOut = (ImageView) itemView.findViewById(R.id.sold_out);
+        soldOut = (ImageView) itemView.findViewById(R.id.favourite);
         productPrice = (TextView) itemView.findViewById(R.id.product_price);
         productName = (TextView) itemView.findViewById(R.id.product_name);
         productLikes = (TextView) itemView.findViewById(R.id.product_likes);

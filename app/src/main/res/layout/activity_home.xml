@@ -11,16 +11,17 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/status_bar_height"
-        android:elevation="8dp"
-
         android:background="@drawable/toolbar_bg"
+        android:elevation="8dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <RelativeLayout
             android:id="@+id/kaleidoscope_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/search_bar_height"
+            android:layout_marginTop="@dimen/status_bar_height"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:clickable="false"
             android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -68,22 +69,21 @@
             style="@style/TabStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/tab_bar_padding"
+            android:layout_marginTop="@dimen/tab_bar_padding"
             app:tabGravity="fill"
             app:tabIndicatorHeight="1dp"
             app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 
 
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

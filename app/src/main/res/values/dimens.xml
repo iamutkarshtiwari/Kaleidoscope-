@@ -5,5 +5,5 @@
     <dimen name="product_details_text_size">14sp</dimen>
     <dimen name="search_view_inset">-8dp</dimen>
     <dimen name="status_bar_height">26dp</dimen>
-    <dimen name="tab_bar_padding">4dp</dimen>
+    <dimen name="tab_bar_padding">8dp</dimen>
 </resources>
