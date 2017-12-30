@@ -7,21 +7,19 @@
     android:fitsSystemWindows="true"
     tools:context="com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity">
 
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_bg"
-        android:elevation="8dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <RelativeLayout
             android:id="@+id/kaleidoscope_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/search_bar_height"
-            android:layout_marginTop="@dimen/status_bar_height"
-            android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="@dimen/status_bar_height"
             android:clickable="false"
             android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -48,14 +46,14 @@
                     android:src="@drawable/ic_search" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="8dp"
-                    android:layout_toRightOf="@id/search_icon"
                     android:clickable="false"
                     android:gravity="center"
+
                     android:text="@string/kaleidoscope"
                     android:textColor="@color/colorAccent"
                     android:textSize="20dp"

@@ -1,7 +1,10 @@
 package com.github.iamutkarshtiwari.kaleidoscope.activity;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -25,15 +28,23 @@ import com.squareup.picasso.Picasso;
 import com.vansuita.library.Icon;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
 
     private static HomeActivity currInstance;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     private HomeViewPagerAdapter viewPagerAdapter;
 
     @BindView(R.id.search_icon) ImageView searchIcon;
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+
+    @OnClick(R.id.search_bar_layout) void sendToSearchActivity() {
+        //  Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+        //  startActivity(intent);
+    }
+
 
     /**
      * Returns the context of this activity
@@ -46,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currInstance = this;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
@@ -55,27 +67,12 @@ public class HomeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
 
-        currInstance = this;
-
-
-        // Mercari search click listener
-        RelativeLayout mercariSearchBar = (RelativeLayout) findViewById(R.id.search_bar_layout);
-        mercariSearchBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-//                startActivity(intent);
-            }
-        });
-
-        Icon.on(searchIcon).color(R.color.colorAccent).icon(R.drawable.ic_search).put();
-
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
         // Setup tab buttons
         setupTabIcons();
         // Initialize picasso settings
@@ -90,9 +87,9 @@ public class HomeActivity extends AppCompatActivity {
         final String[] tabNames = getResources().getStringArray(R.array.home_tab_names);
         for (int i = 0; i < numberOfTabs; i++) {
             View tabView = getLayoutInflater().inflate(R.layout.custom_home_tab, null);
-//            ImageView tabImage = (ImageView) tabView.findViewById(R.id.tab_icon);
-//            int imageID = getResources().getIdentifier("ic_tab_" + (i + 1), "drawable", getPackageName());
-//            tabImage.setBackgroundResource(imageID);
+            ImageView tabImage = (ImageView) tabView.findViewById(R.id.tab_icon);
+            int imageID = getResources().getIdentifier("ic_tab_" + (i + 1), "drawable", getPackageName());
+            tabImage.setBackgroundResource(imageID);
             TextView textView = (TextView) tabView.findViewById(R.id.tab_title);
             textView.setText(tabNames[i]);
             tabLayout.getTabAt(i).setCustomView(tabView);
