@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ImageView
@@ -12,13 +13,17 @@
         android:layout_weight="2"
         android:scaleType="fitCenter" />
 
-    <TextView
+    <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
         android:id="@+id/tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:textColor="@color/colorWhite"
-        android:textSize="14sp" />
+        android:text="Movei"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        app:fontName="MyriadPro"/>
 
 </LinearLayout>

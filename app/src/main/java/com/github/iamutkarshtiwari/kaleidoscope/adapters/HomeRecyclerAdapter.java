@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movies;
 import com.squareup.picasso.Picasso;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     ArrayList<Movies> items;
     Activity activity;
@@ -25,13 +26,13 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<ProductViewHolder>
     }
 
     @Override
-    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_view_product_item, parent, false);
-        return new ProductViewHolder(view);
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_view_movie_item, parent, false);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, final int position) {
+    public void onBindViewHolder(MovieViewHolder holder, final int position) {
         // Set sold status tag
         if (items.get(position).getStatus().equalsIgnoreCase("sold_out")) {
             holder.soldOut.setVisibility(View.VISIBLE);
@@ -39,20 +40,20 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<ProductViewHolder>
             holder.soldOut.setVisibility(View.GONE);
         }
 
-        // Downloads the product image from url
-        Picasso.with(activity)
+        // Downloads the movie image from url
+        Glide.with(activity)
                 .load(items.get(position).getPhotoURL())
-                .fit()
+                .fitCenter()
                 .error(activity.getResources().getDrawable(R.drawable.image_not_found))
-                .into(holder.productImage);
+                .into(holder.movieImage);
 
         // Format price to currency style
         DecimalFormat formatter = new DecimalFormat("#,###");
         String price = formatter.format(items.get(position).getPrice());
-        holder.productPrice.setText(activity.getResources().getString(R.string.product_price, "$", price));
-        holder.productName.setText(items.get(position).getName());
-        holder.productLikes.setText(String.format("%s", items.get(position).getLikesCount()));
-        holder.productComments.setText(String.format("%s", items.get(position).getCommentsCount()));
+        holder.moviePrice.setText(activity.getResources().getString(R.string.movie_price, "$", price));
+        holder.movieName.setText(items.get(position).getName());
+        holder.movieLikes.setText(String.format("%s", items.get(position).getLikesCount()));
+        holder.movieComments.setText(String.format("%s", items.get(position).getCommentsCount()));
     }
 
     @Override

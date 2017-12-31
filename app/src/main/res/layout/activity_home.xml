@@ -45,7 +45,7 @@
                     android:clickable="false"
                     android:src="@drawable/ic_search" />
 
-                <TextView
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
@@ -53,11 +53,12 @@
                     android:layout_marginRight="8dp"
                     android:clickable="false"
                     android:gravity="center"
-
                     android:text="@string/kaleidoscope"
+                    android:textAlignment="center"
                     android:textColor="@color/colorAccent"
                     android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:fontName="MyriadPro" />
 
             </RelativeLayout>
         </RelativeLayout>
@@ -67,9 +68,10 @@
             style="@style/TabStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tab_bar_padding"
+            android:layout_marginTop="16dp"
             app:tabGravity="fill"
             app:tabIndicatorHeight="1dp"
+            app:tabMaxWidth="0dp"
             app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 

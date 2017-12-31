@@ -38,7 +38,7 @@
             android:layout_below="@id/search_icon"
             android:layout_marginTop="16dp"
             android:text="@string/find_next_fav"
-            android:textSize="@dimen/product_details_text_size"
+            android:textSize="@dimen/movie_details_text_size"
             android:textStyle="bold" />
 
     </RelativeLayout>
