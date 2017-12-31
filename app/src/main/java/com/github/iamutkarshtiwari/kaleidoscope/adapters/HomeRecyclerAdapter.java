@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movies;
 import com.squareup.picasso.Picasso;
 
@@ -41,9 +40,9 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         }
 
         // Downloads the movie image from url
-        Glide.with(activity)
+        Picasso.with(activity)
                 .load(items.get(position).getPhotoURL())
-                .fitCenter()
+                .fit()
                 .error(activity.getResources().getDrawable(R.drawable.image_not_found))
                 .into(holder.movieImage);
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="260dp"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true">
 
@@ -18,87 +18,89 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5">
+                android:layout_weight="8">
 
                 <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                     android:id="@+id/movie_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:siShape="@drawable/ic_zigzag"
-                    android:scaleType="fitXY"/>
-
-                <TextView
-                    android:id="@+id/movie_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="8dp"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/movie_details_text_size"
-                    tools:text="Macbook Air" />
+                    android:scaleType="fitXY"
+                    app:siShape="@drawable/ic_zigzag" />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/movie_details"
-                android:layout_width="match_parent"
+
+            <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
+                android:layout_weight="1.5"
+                android:id="@+id/movie_name"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/movieDetailColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:fontName="MyriadPro"
+                tools:text="I know what you d lfffdfsfsadfafdsfdast summer" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="4dp"
+                android:layout_height="0dp"
+                android:layout_below="@id/movie_name"
+                android:layout_marginLeft="8dp">
 
                 <ImageView
-                    android:id="@+id/movie_likes_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/movie_year_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="4dp"
-                    android:src="@drawable/icon_like" />
+                    android:src="@drawable/ic_calendar" />
 
-                <TextView
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
                     android:id="@+id/movie_likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@id/movie_likes_icon"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/movie_details_text_size"
-                    tools:text="3" />
-
-                <ImageView
-                    android:id="@+id/movie_comments_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_alignBaseline="@id/movie_year_icon"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/movie_likes"
-                    android:src="@drawable/icon_comment" />
+                    android:layout_toRightOf="@id/movie_year_icon"
+                    android:textColor="@color/movieDetailColor"
+                    android:textSize="16sp"
+                    tools:text="2012" />
 
-                <TextView
+                <ImageView
+                    android:id="@+id/movie_runtime_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/movie_likes"
+                    android:src="@drawable/ic_stopwatch" />
+
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
                     android:id="@+id/movie_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/movie_year_icon"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@id/movie_comments_icon"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/movie_details_text_size"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toRightOf="@id/movie_runtime_icon"
+                    android:textColor="@color/movieDetailColor"
+                    android:textSize="16sp"
                     tools:text="3" />
 
-                <TextView
-                    android:id="@+id/movie_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="4dp"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/movie_details_text_size"
-                    tools:text="$ 1,900" />
 
             </RelativeLayout>
+
+
         </LinearLayout>
 
         <ImageView
@@ -106,8 +108,28 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="16dp"
+            android:elevation="4dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_favourite" />
+
+        <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
+            android:id="@+id/movie_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="8sp"
+            android:background="@drawable/rating_bg"
+            android:elevation="4dp"
+            android:gravity="center"
+
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/movie_rating_text_size"
+            android:textStyle="bold"
+            app:fontName="MyriadPro"
+            tools:text="7.5" />
+
 
     </RelativeLayout>
 
