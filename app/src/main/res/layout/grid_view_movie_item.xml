@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="260dp"
+    android:layout_height="280dp"
     app:cardCornerRadius="8dp"
+    android:elevation="8dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -21,7 +22,7 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="8">
+                android:layout_weight="9">
 
                 <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                     android:id="@+id/movie_image"
@@ -41,12 +42,11 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp"
                 android:textColor="@color/movieDetailColor"
-                android:textSize="16sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 app:fontName="MyriadPro"
-                tools:text="I know what you d lfffdfsfsadfafdsfdast summer" />
+                tools:text="I know what you d lfffdfsfsfsfsdffdfsfsfsdfsfsfsdfadfafdsfdast summer" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -58,13 +58,13 @@
 
                 <ImageView
                     android:id="@+id/movie_year_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_calendar" />
 
                 <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
-                    android:id="@+id/movie_likes"
+                    android:id="@+id/movie_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/movie_year_icon"
@@ -72,30 +72,29 @@
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/movie_year_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     tools:text="2012" />
 
                 <ImageView
-                    android:id="@+id/movie_runtime_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:id="@+id/movie_reel_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@id/movie_likes"
-                    android:src="@drawable/ic_stopwatch" />
+                    android:layout_toRightOf="@id/movie_year"
+                    android:src="@drawable/ic_reel" />
 
                 <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
-                    android:id="@+id/movie_comments"
+                    android:id="@+id/movie_genres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/movie_year_icon"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_toRightOf="@id/movie_runtime_icon"
+                    android:layout_toRightOf="@id/movie_reel_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="16sp"
-                    tools:text="3" />
+                    android:textSize="12sp"
+                    tools:text="Action, Drama, Horror" />
 
 
             </RelativeLayout>
@@ -118,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="55dp"
             android:layout_marginRight="8sp"
             android:background="@drawable/rating_bg"
             android:elevation="4dp"

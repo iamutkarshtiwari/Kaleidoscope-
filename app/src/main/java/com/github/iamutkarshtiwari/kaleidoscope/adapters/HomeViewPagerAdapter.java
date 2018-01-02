@@ -1,5 +1,6 @@
 package com.github.iamutkarshtiwari.kaleidoscope.adapters;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,12 +8,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.github.iamutkarshtiwari.kaleidoscope.fragments.HomeFragment;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
     private int mPagerCount = 2;
+    private Context mContext;
+    private CompositeDisposable mCompositeDisposable;
 
-    public HomeViewPagerAdapter(FragmentManager fm) {
+    public HomeViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.mContext = context;
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -22,13 +29,13 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             fragment = new HomeFragment();
             args = new Bundle();
-            args.putString("data_source", "men.json");
+            args.putString("data_source", "network");
             fragment.setArguments(args);
 
         } else if (position == 1) {
             fragment = new HomeFragment();
             args = new Bundle();
-            args.putString("data_source", "all.json");
+            args.putString("data_source", "db");
             fragment.setArguments(args);
 
         }
@@ -39,4 +46,6 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mPagerCount;
     }
+
+
 }

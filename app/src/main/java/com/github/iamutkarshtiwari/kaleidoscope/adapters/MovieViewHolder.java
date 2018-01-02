@@ -7,19 +7,20 @@ import android.widget.TextView;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView movieImage, soldOut;
-    public TextView moviePrice, movieName, movieLikes, movieComments;
+    @BindView(R.id.movie_image) ImageView movieImage;
+    @BindView(R.id.favourite) ImageView isFav;
+    @BindView(R.id.movie_price) TextView movieRating;
+    @BindView(R.id.movie_name) TextView movieName;
+    @BindView(R.id.movie_year) TextView movieYear;
+    @BindView(R.id.movie_genres) TextView movieGenres;
 
     public MovieViewHolder(View itemView) {
         super(itemView);
-
-        movieImage = (ImageView) itemView.findViewById(R.id.movie_image);
-        soldOut = (ImageView) itemView.findViewById(R.id.favourite);
-        moviePrice = (TextView) itemView.findViewById(R.id.movie_price);
-        movieName = (TextView) itemView.findViewById(R.id.movie_name);
-        movieLikes = (TextView) itemView.findViewById(R.id.movie_likes);
-        movieComments = (TextView) itemView.findViewById(R.id.movie_comments);
+        ButterKnife.bind(this, itemView);
     }
 }

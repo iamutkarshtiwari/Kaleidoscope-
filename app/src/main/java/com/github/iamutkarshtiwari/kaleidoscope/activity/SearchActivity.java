@@ -10,7 +10,7 @@
 //
 //import com.arlib.floatingsearchview.FloatingSearchView;
 //import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-//import com.github.iamutkarshtiwari.kaleidoscope.models.Movies;
+//import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 //
 //import java.util.ArrayList;
 //
@@ -27,7 +27,7 @@
 //
 //    private FloatingSearchView searchBarView;
 //    private String mLastQuery = "";
-//    private ArrayList<Movies> allItemList;
+//    private ArrayList<Movie> allItemList;
 //    private RecyclerView recyclerView;
 //
 //    @Override

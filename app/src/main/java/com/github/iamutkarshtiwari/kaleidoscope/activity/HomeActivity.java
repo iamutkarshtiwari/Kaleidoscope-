@@ -1,16 +1,11 @@
 package com.github.iamutkarshtiwari.kaleidoscope.activity;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.design.widget.Snackbar;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,23 +13,34 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeViewPagerAdapter;
+import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
+import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
+import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
+import com.github.iamutkarshtiwari.kaleidoscope.network.TheMovieDbInterface;
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.picasso.Picasso;
-import com.vansuita.library.Icon;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static HomeActivity currInstance;
-    private HomeViewPagerAdapter viewPagerAdapter;
+    private  HomeActivity mCurrInstance;
+    private HomeViewPagerAdapter mViewPagerAdapter;
 
     @BindView(R.id.search_icon) ImageView searchIcon;
     @BindView(R.id.view_pager) ViewPager viewPager;
@@ -51,13 +57,14 @@ public class HomeActivity extends AppCompatActivity {
      *
      * @return
      */
-    public static Context getContext() {
-        return currInstance.getApplicationContext();
+    public Context getContext() {
+        return this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currInstance = this;
+
+        mCurrInstance = this;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
@@ -69,14 +76,16 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        viewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
+        mViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(mViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
         // Setup tab buttons
         setupTabIcons();
         // Initialize picasso settings
         setupPicasso();
+
+//        loadJSON();
     }
 
     /**
@@ -111,6 +120,8 @@ public class HomeActivity extends AppCompatActivity {
             Log.e("Kaleidoscope", "Singleton already exists");
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

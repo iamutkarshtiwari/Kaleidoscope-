@@ -13,4 +13,5 @@
     <color name="toolbarCenter">#50BEF2</color>
     <color name="toolbarEnd">#3996D7</color>
     <color name="movieDetailColor">#555555</color>
+    <color name="colorAppBg">#F1F1F1</color>
 </resources>
