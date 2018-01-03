@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Genres {
 
-    private static final HashMap<Integer, String> GENRE_MAP = new HashMap<>();
+    public static final HashMap<Integer, String> GENRE_MAP = new HashMap<>();
 
     static {
         GENRE_MAP.put(28, "Action");

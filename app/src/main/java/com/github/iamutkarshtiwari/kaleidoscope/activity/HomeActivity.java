@@ -6,36 +6,25 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeViewPagerAdapter;
-import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
-import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
-import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
-import com.github.iamutkarshtiwari.kaleidoscope.network.TheMovieDbInterface;
 import com.jakewharton.picasso.OkHttp3Downloader;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -45,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.search_icon) ImageView searchIcon;
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
+//    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @OnClick(R.id.search_bar_layout) void sendToSearchActivity() {
         //  Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
@@ -68,12 +58,15 @@ public class HomeActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
-            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
         mViewPagerAdapter = new HomeViewPagerAdapter(getSupportFragmentManager(), this);
@@ -122,10 +115,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
         return true;
     }
 
@@ -133,7 +127,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sort) {
             return true;
         }
 

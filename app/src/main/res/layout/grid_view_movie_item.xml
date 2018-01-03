@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="295dp"
     app:cardCornerRadius="8dp"
     android:elevation="8dp"
     app:cardUseCompatPadding="true">
@@ -22,7 +22,7 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="9">
+                android:layout_weight="10">
 
                 <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                     android:id="@+id/movie_image"
@@ -50,7 +50,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:layout_marginBottom="4dp"
                 android:layout_height="0dp"
                 android:layout_below="@id/movie_name"
@@ -60,27 +60,23 @@
                     android:id="@+id/movie_year_icon"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_calendar" />
 
                 <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
                     android:id="@+id/movie_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/movie_year_icon"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@id/movie_year_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     tools:text="2012" />
 
                 <ImageView
                     android:id="@+id/movie_reel_icon"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/movie_year"
                     android:src="@drawable/ic_reel" />
 
@@ -88,12 +84,11 @@
                     android:id="@+id/movie_genres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginLeft="4dp"
                     android:layout_marginRight="8dp"
                     android:layout_toRightOf="@id/movie_reel_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     tools:text="Action, Drama, Horror" />
 
 

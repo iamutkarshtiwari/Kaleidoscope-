@@ -15,12 +15,14 @@ import retrofit2.http.Query;
 
 public interface TheMovieDbInterface {
 
-    @GET("discover/movie/")
-    Observable<ResponseList> getMovieList(@Query("page") int page,
+    @GET("movie/popular/")
+    Observable<ResponseList> getPopularMovies(@Query("page") int page,
                                           @Query("language") String language,
-                                          @Query("sort_by") String sort_by,
-                                          @Query("include_adult") Boolean include_adult,
-                                          @Query("include_video") Boolean include_video,
                                           @Query("api_key") String api_key);
+
+    @GET("movie/top_rated/")
+    Observable<ResponseList> getTopRatedMovies(@Query("page") int page,
+                                             @Query("language") String language,
+                                             @Query("api_key") String api_key);
 
 }

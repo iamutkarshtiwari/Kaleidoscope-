@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(TheMovieDbInterface.class);
 
-        mCompositeDisposable.add(requestInterface.getMovieList(1, "en-US", "popularity.desc", false, false, ApiBase.API_KEY)
+        mCompositeDisposable.add(requestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(this::handleResponse,this::handleError));

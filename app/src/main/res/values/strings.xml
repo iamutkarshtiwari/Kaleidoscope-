@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Kaleidoscope</string>
     <string name="action_settings">Settings</string>
-    <string name="sell">Sell</string>
+    <string name="sort_by">Sort by</string>
+    <string name="popularity">Popularity</string>
+    <string name="top_rated">Top Rated</string>
     <string name="kaleidoscope">kaleidoscope</string>
     <string name="sell_an_item">Do you want to sell an item?</string>
     <string name="kaleidoscope_subtitle">WHERE COLORS COME TO LIFE</string>

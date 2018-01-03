@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.iamutkarshtiwari.kaleidoscope.models.Genres;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -44,23 +45,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 //        }
 
         // Downloads the movie image from url
-//        Uri.Builder builder = new Uri.Builder();
-//        builder.authority(POSTER_BASE)
-//                .appendPath();
-//        String posterUrl = builder.build().toString();
-//
-//        Uri.Builder builder = new Uri.Builder();
-//        builder.scheme("https")
-//                .authority("www.myawesomesite.com")
-//                .appendPath("t")
-//                .appendPath("p")
-//                .appendPath("w342")
-//                .appendQueryParameter("type", "1")
-//                .appendQueryParameter("sort", "relevance")
-//                .fragment("section-name");
-//        String myUrl = builder.build().toString();
-
-
         Picasso.with(activity)
                 .load(POSTER_BASE + items.get(position).getPoster_path())
                 .fit()
@@ -82,7 +66,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         String genreLabel = "";
         String separator = "";
         for (int genre : genreList) {
-            genreLabel = separator + genre;
+            genreLabel += separator + Genres.GENRE_MAP.get(genre);
             separator = ", ";
         }
         holder.movieGenres.setText(String.format("%s", genreLabel));
