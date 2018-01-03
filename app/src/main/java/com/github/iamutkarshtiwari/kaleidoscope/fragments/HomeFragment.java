@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -35,8 +38,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
+
+    private static final String TAG = "KALEIDOSCOPE";
+    private static final int ORDER_BY_POPULARITY = 1;
+    private static final int ORDER_BY_TOP_RATED = 2;
+    private static final int DISCOVERY_LIST = 3;
+
     private String mDataSource;
     private CompositeDisposable mCompositeDisposable;
+    private TheMovieDbInterface mRequestInterface;
     private HomeRecyclerAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
 
@@ -54,29 +64,40 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
-
-        if (mDataSource.compareToIgnoreCase("network") == 0) {
-            mCompositeDisposable = new CompositeDisposable();
-            loadFromNetwork();
-        } else {
-
-        }
+        loadFromNetwork(DISCOVERY_LIST);
 
     }
 
-    public void loadFromNetwork() {
-        TheMovieDbInterface requestInterface = new Retrofit.Builder()
-                .baseUrl(ApiBase.BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build().create(TheMovieDbInterface.class);
+    public void loadFromNetwork(int listType) {
+        mCompositeDisposable = new CompositeDisposable();
 
-        mCompositeDisposable.add(requestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(this::handleResponse,this::handleError));
+        if (mRequestInterface == null) {
+            mRequestInterface = new Retrofit.Builder()
+                    .baseUrl(ApiBase.BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build().create(TheMovieDbInterface.class);
+        }
+
+        Observable<ResponseList> responseListObservable = null;
+        if (listType == ORDER_BY_POPULARITY) {
+            responseListObservable = mRequestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY);
+        } else if (listType == ORDER_BY_TOP_RATED) {
+            responseListObservable = mRequestInterface.getTopRatedMovies(1, "en-US", ApiBase.API_KEY);
+        } else if (listType == DISCOVERY_LIST) {
+            responseListObservable = mRequestInterface.getDiscoverMovies(1,"en-US", ApiBase.API_KEY, "popularity.desc", false, false);
+        }
+
+        try {
+            mCompositeDisposable.add(responseListObservable
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(this::handleResponse, this::handleError));
+        } catch (Exception e) {
+            Log.e(TAG, "Response list observable is empty");
+        }
     }
 
     public void handleResponse(ResponseList responseList) {
@@ -84,7 +105,11 @@ public class HomeFragment extends Fragment {
         // Change column count based on screen orientation
         int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
 
-        mAdapter = new HomeRecyclerAdapter(getActivity(), new ArrayList<>(responseList.getResults()));
+        if (mAdapter == null) {
+            mAdapter = new HomeRecyclerAdapter(getActivity(), new ArrayList<>(responseList.getResults()));
+        } else {
+            mAdapter.updateAdapterData(new ArrayList<>(responseList.getResults()));
+        }
         mLayoutManager = new GridLayoutManager(getContext(), numberOfColumns);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -94,4 +119,21 @@ public class HomeFragment extends Fragment {
         Toast.makeText(getContext(), "Error "+error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         Log.e("ERROR: ", error.getLocalizedMessage());
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.submenu_popularity) {
+            loadFromNetwork(ORDER_BY_POPULARITY);
+            return true;
+        } else if (id == R.id.submenu_top_rated) {
+            loadFromNetwork(ORDER_BY_TOP_RATED);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

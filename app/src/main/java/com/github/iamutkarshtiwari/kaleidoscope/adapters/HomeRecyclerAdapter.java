@@ -88,5 +88,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
      */
     public void updateAdapterData(ArrayList<Movie> newData) {
         this.items = newData;
+        notifyDataSetChanged();
     }
 }

@@ -25,4 +25,12 @@ public interface TheMovieDbInterface {
                                              @Query("language") String language,
                                              @Query("api_key") String api_key);
 
+    @GET("discover/movie/")
+    Observable<ResponseList> getDiscoverMovies(@Query("page") int page,
+                                               @Query("language") String language,
+                                               @Query("api_key") String api_key,
+                                               @Query("sort_by") String sort_by,
+                                               @Query("include_adult") Boolean include_adult,
+                                               @Query("include_video") Boolean include_video);
+
 }
