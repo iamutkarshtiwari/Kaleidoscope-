@@ -66,7 +66,10 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
-        loadFromNetwork(DISCOVERY_LIST);
+
+        if (this.mDataSource.compareToIgnoreCase("network") == 0) {
+            loadFromNetwork(DISCOVERY_LIST);
+        }
 
     }
 
@@ -87,8 +90,10 @@ public class HomeFragment extends Fragment {
         } else if (listType == ORDER_BY_TOP_RATED) {
             responseListObservable = mRequestInterface.getTopRatedMovies(1, "en-US", ApiBase.API_KEY);
         } else if (listType == DISCOVERY_LIST) {
-            responseListObservable = mRequestInterface.getDiscoverMovies(1,"en-US", ApiBase.API_KEY, "popularity.desc", false, false);
+            responseListObservable = mRequestInterface.getDiscoverMovies(1,ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_ASC, false, false);
         }
+
+        Toast.makeText(getContext(), listType + "", Toast.LENGTH_SHORT).show();
 
         try {
             mCompositeDisposable.add(responseListObservable

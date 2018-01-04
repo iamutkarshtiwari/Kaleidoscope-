@@ -33,9 +33,8 @@
 
             </RelativeLayout>
 
-
             <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
-                android:layout_weight="1.5"
+                android:layout_weight="1.2"
                 android:id="@+id/movie_name"
                 android:layout_width="wrap_content"
                 android:gravity="center_vertical"
@@ -46,13 +45,14 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 app:fontName="MyriadPro"
-                tools:text="I know what you d lfffdfsfsfsfsdffdfsfsfsdfsfsfsdfadfafdsfdast summer" />
+                tools:text="I summer" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1.2"
-                android:layout_marginBottom="4dp"
+                android:layout_weight="1.1"
                 android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
                 android:layout_below="@id/movie_name"
                 android:layout_marginLeft="8dp">
 
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="55dp"
+            android:layout_marginBottom="52dp"
             android:layout_marginRight="8sp"
             android:background="@drawable/rating_bg"
             android:elevation="4dp"

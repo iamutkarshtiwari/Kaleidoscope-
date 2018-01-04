@@ -4,17 +4,25 @@ package com.github.iamutkarshtiwari.kaleidoscope.models;
 import java.util.ArrayList;
 
 public class Movie {
-
     private Double vote_average;
     private String title;
     private String poster_path;
     private String backdrop_path;
     private String release_date;
+    private String overview;
     private String original_language;
     private int revenue;
     private int runtime;
     private int budget;
     private ArrayList<Integer> genre_ids;
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
 
     public int getRevenue() {
         return revenue;

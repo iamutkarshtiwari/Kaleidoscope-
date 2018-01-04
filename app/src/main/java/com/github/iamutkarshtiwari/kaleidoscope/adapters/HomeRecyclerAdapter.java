@@ -48,10 +48,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         Picasso.with(activity)
                 .load(POSTER_BASE + items.get(position).getPoster_path())
                 .fit()
-                .error(activity.getResources().getDrawable(R.drawable.image_not_found))
+                .error(activity.getResources().getDrawable(R.drawable.no_image_found))
                 .into(holder.movieImage);
-
-
 
         // Format price to currency style
         DecimalFormat formatter = new DecimalFormat("#.#");
