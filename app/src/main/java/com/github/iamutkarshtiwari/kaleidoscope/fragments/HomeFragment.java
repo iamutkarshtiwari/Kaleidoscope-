@@ -1,7 +1,5 @@
 package com.github.iamutkarshtiwari.kaleidoscope.fragments;
 
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,19 +14,17 @@ import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeRecyclerAdapter;
-import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
 import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
 import com.github.iamutkarshtiwari.kaleidoscope.network.TheMovieDbInterface;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.GridColumnCalculator;
-import com.github.iamutkarshtiwari.kaleidoscope.utils.JSONParser;
+import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -40,17 +36,20 @@ public class HomeFragment extends Fragment {
 
 
     private static final String TAG = "KALEIDOSCOPE";
-    private static final int ORDER_BY_POPULARITY = 1;
-    private static final int ORDER_BY_TOP_RATED = 2;
-    private static final int DISCOVERY_LIST = 3;
+    private static final int DISCOVERY_LIST = 1;
+    private static final int ORDER_BY_POPULARITY = 2;
+    private static final int ORDER_BY_TOP_RATED = 3;
 
-    private String mDataSource;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.tab_title)
+    MyTextView fragmentTitle;
+
     private CompositeDisposable mCompositeDisposable;
+    private String mDataSource;
     private TheMovieDbInterface mRequestInterface;
     private HomeRecyclerAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
-
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -58,6 +57,8 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(
                 R.layout.pager_fragment, container, false);
         this.mDataSource = getArguments().getString("data_source");
+        View view = inflater.inflate(R.layout.custom_home_tab, container, false);
+        ButterKnife.bind(this, view);
         return rootView;
     }
 
@@ -65,16 +66,23 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        ButterKnife.bind(this, view);
 
         if (this.mDataSource.compareToIgnoreCase("network") == 0) {
             loadFromNetwork(DISCOVERY_LIST);
+        } else if (this.mDataSource.compareToIgnoreCase("database") == 0) {
+
         }
 
     }
 
+    private CompositeDisposable getCompositeDisposable() {
+        if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        return mCompositeDisposable;
+    }
+
     public void loadFromNetwork(int listType) {
-        mCompositeDisposable = new CompositeDisposable();
 
         if (mRequestInterface == null) {
             mRequestInterface = new Retrofit.Builder()
@@ -84,24 +92,29 @@ public class HomeFragment extends Fragment {
                     .build().create(TheMovieDbInterface.class);
         }
 
+        String[] tabNames = getContext().getResources().getStringArray(R.array._1st_tab_names);
+
         Observable<ResponseList> responseListObservable = null;
-        if (listType == ORDER_BY_POPULARITY) {
+        if (listType == DISCOVERY_LIST) {
+            responseListObservable = mRequestInterface.getDiscoverMovies(1, ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_ASC, false, false);
+            fragmentTitle.setText(tabNames[0]);
+        } else if (listType == ORDER_BY_POPULARITY) {
             responseListObservable = mRequestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY);
+            fragmentTitle.setText(tabNames[1]);
         } else if (listType == ORDER_BY_TOP_RATED) {
             responseListObservable = mRequestInterface.getTopRatedMovies(1, "en-US", ApiBase.API_KEY);
-        } else if (listType == DISCOVERY_LIST) {
-            responseListObservable = mRequestInterface.getDiscoverMovies(1,ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_ASC, false, false);
+            fragmentTitle.setText(tabNames[2]);
         }
 
         Toast.makeText(getContext(), listType + "", Toast.LENGTH_SHORT).show();
 
         try {
-            mCompositeDisposable.add(responseListObservable
+            getCompositeDisposable().add(responseListObservable
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(this::handleResponse, this::handleError));
-        } catch (Exception e) {
-            Log.e(TAG, "Response list observable is empty");
+        } catch (NullPointerException e) {
+            Log.e(TAG, "You passed a wrong parameter");
         }
     }
 
@@ -121,7 +134,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void handleError(Throwable error) {
-        Toast.makeText(getContext(), "Error "+error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Error " + error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         Log.e("ERROR: ", error.getLocalizedMessage());
     }
 
@@ -140,5 +153,9 @@ public class HomeFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.clear();
+    }
 }

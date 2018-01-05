@@ -35,7 +35,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 1) {
             fragment = new HomeFragment();
             args = new Bundle();
-            args.putString("data_source", "db");
+            args.putString("data_source", "database");
             fragment.setArguments(args);
 
         }

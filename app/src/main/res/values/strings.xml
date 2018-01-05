@@ -11,7 +11,13 @@
     <string name="find_next_fav">Find your next favourite thing</string>
 
     <string-array name="home_tab_names">
-        <item>Movies</item>
+        <item>Discover Movies</item>
         <item>Favourites</item>
+    </string-array>
+
+    <string-array name="_1st_tab_names">
+        <item>Discover Movies</item>
+        <item>Popular Movies</item>
+        <item>Top Rated Movies</item>
     </string-array>
 </resources>
