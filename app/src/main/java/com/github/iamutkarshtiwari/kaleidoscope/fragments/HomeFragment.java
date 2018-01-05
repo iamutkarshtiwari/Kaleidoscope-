@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
+import com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeRecyclerAdapter;
 import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
 import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
@@ -40,7 +41,6 @@ public class HomeFragment extends Fragment {
     private static final int ORDER_BY_POPULARITY = 2;
     private static final int ORDER_BY_TOP_RATED = 3;
 
-    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.tab_title)
     MyTextView fragmentTitle;
@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        recyclerView = view.findViewById(R.id.recycler_view);
 
         if (this.mDataSource.compareToIgnoreCase("network") == 0) {
             loadFromNetwork(DISCOVERY_LIST);
@@ -83,6 +84,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void loadFromNetwork(int listType) {
+        mCompositeDisposable = getCompositeDisposable();
 
         if (mRequestInterface == null) {
             mRequestInterface = new Retrofit.Builder()
@@ -93,23 +95,25 @@ public class HomeFragment extends Fragment {
         }
 
         String[] tabNames = getContext().getResources().getStringArray(R.array._1st_tab_names);
+        String tabTitle = "";
 
         Observable<ResponseList> responseListObservable = null;
         if (listType == DISCOVERY_LIST) {
             responseListObservable = mRequestInterface.getDiscoverMovies(1, ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_ASC, false, false);
-            fragmentTitle.setText(tabNames[0]);
+            tabTitle = tabNames[0];
         } else if (listType == ORDER_BY_POPULARITY) {
             responseListObservable = mRequestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY);
-            fragmentTitle.setText(tabNames[1]);
+            tabTitle = tabNames[1];
         } else if (listType == ORDER_BY_TOP_RATED) {
             responseListObservable = mRequestInterface.getTopRatedMovies(1, "en-US", ApiBase.API_KEY);
-            fragmentTitle.setText(tabNames[2]);
+            tabTitle = tabNames[2];
         }
 
+        ((HomeActivity) getActivity()).updateTabTitle(0, tabTitle);
         Toast.makeText(getContext(), listType + "", Toast.LENGTH_SHORT).show();
 
         try {
-            getCompositeDisposable().add(responseListObservable
+            mCompositeDisposable.add(responseListObservable
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(this::handleResponse, this::handleError));
@@ -119,7 +123,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void handleResponse(ResponseList responseList) {
-
         // Change column count based on screen orientation
         int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
 
@@ -155,7 +158,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mCompositeDisposable.clear();
+        super.onDestroy();
     }
 }

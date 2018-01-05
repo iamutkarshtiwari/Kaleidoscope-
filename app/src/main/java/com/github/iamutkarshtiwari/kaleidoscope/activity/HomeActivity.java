@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeViewPagerAdapter;
+import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -112,6 +113,16 @@ public class HomeActivity extends AppCompatActivity {
         } catch (IllegalStateException exception) {
             Log.e("Kaleidoscope", "Singleton already exists");
         }
+    }
+
+    /**
+     * Updates the tab title
+     * @param tabIndex index of the tab from viewpager
+     * @param title to be updated
+     */
+    public void updateTabTitle(int tabIndex, String title) {
+        MyTextView tabtitle = (MyTextView) (tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.tab_title));
+        tabtitle.setText(title);
     }
 
 
