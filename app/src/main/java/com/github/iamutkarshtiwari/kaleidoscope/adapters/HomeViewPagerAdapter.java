@@ -14,12 +14,10 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
 
     private int mPagerCount = 2;
     private Context mContext;
-    private CompositeDisposable mCompositeDisposable;
 
     public HomeViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.mContext = context;
-        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override

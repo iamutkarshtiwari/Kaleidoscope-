@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.github.iamutkarshtiwari.kaleidoscope.models.Genres;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
+import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -19,20 +20,20 @@ import com.github.iamutkarshtiwari.kaleidoscope.R;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
-    private static final String POSTER_BASE = "http://image.tmdb.org/t/p/w342/";
-
     ArrayList<Movie> items;
     Activity activity;
+    ItemClickListener mListener;
 
-    public HomeRecyclerAdapter(Activity activity, ArrayList<Movie> items) {
+    public HomeRecyclerAdapter(Activity activity, ArrayList<Movie> items, ItemClickListener mListener) {
         this.activity = activity;
         this.items = items;
+        this.mListener = mListener;
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_view_movie_item, parent, false);
-        return new MovieViewHolder(view);
+        return new MovieViewHolder(view, mListener);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
         // Downloads the movie image from url
         Picasso.with(activity)
-                .load(POSTER_BASE + items.get(position).getPoster_path())
+                .load(ApiBase.POSTER_BASE + items.get(position).getPoster_path())
                 .fit()
                 .error(activity.getResources().getDrawable(R.drawable.no_image_found))
                 .into(holder.movieImage);
@@ -80,12 +81,22 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         return items.size();
     }
 
+    public void clearAdapterData() {
+        this.items.clear();
+        notifyDataSetChanged();
+    }
+
     /**
      * Updates the adapter item list with new list
      * @param newData list
      */
-    public void updateAdapterData(ArrayList<Movie> newData) {
+    public void setAdapterData(ArrayList<Movie> newData) {
+        clearAdapterData();
         this.items = newData;
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Movie> getAdapterData() {
+        return this.items;
     }
 }

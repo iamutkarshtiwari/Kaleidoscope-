@@ -1,5 +1,6 @@
 package com.github.iamutkarshtiwari.kaleidoscope.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,10 @@ import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity;
+import com.github.iamutkarshtiwari.kaleidoscope.activity.MovieDetailActivity;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeRecyclerAdapter;
+import com.github.iamutkarshtiwari.kaleidoscope.adapters.ItemClickListener;
+import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
 import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
 import com.github.iamutkarshtiwari.kaleidoscope.network.TheMovieDbInterface;
@@ -74,6 +78,23 @@ public class HomeFragment extends Fragment {
 
         }
 
+
+        // Change column count based on screen orientation
+        int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
+
+        ItemClickListener itemClickListener = new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        mAdapter = new HomeRecyclerAdapter(getActivity(), new ArrayList<Movie>(), itemClickListener);
+        mLayoutManager = new GridLayoutManager(getContext(), numberOfColumns);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     private CompositeDisposable getCompositeDisposable() {
@@ -99,7 +120,7 @@ public class HomeFragment extends Fragment {
 
         Observable<ResponseList> responseListObservable = null;
         if (listType == DISCOVERY_LIST) {
-            responseListObservable = mRequestInterface.getDiscoverMovies(1, ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_ASC, false, false);
+            responseListObservable = mRequestInterface.getDiscoverMovies(1, ApiBase.LOCALE_EN_US, ApiBase.API_KEY, ApiBase.POPULARITY_ORDER_DESC, false, false);
             tabTitle = tabNames[0];
         } else if (listType == ORDER_BY_POPULARITY) {
             responseListObservable = mRequestInterface.getPopularMovies(1, "en-US", ApiBase.API_KEY);
@@ -123,17 +144,9 @@ public class HomeFragment extends Fragment {
     }
 
     public void handleResponse(ResponseList responseList) {
-        // Change column count based on screen orientation
-        int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
-
-        if (mAdapter == null) {
-            mAdapter = new HomeRecyclerAdapter(getActivity(), new ArrayList<>(responseList.getResults()));
-        } else {
-            mAdapter.updateAdapterData(new ArrayList<>(responseList.getResults()));
+        if (mAdapter != null) {
+            mAdapter.setAdapterData(new ArrayList<>(responseList.getResults()));
         }
-        mLayoutManager = new GridLayoutManager(getContext(), numberOfColumns);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(mAdapter);
     }
 
     private void handleError(Throwable error) {
@@ -158,7 +171,9 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        mCompositeDisposable.clear();
+        if (!(mCompositeDisposable == null || mCompositeDisposable.isDisposed())) {
+            mCompositeDisposable.clear();
+        }
         super.onDestroy();
     }
 }
