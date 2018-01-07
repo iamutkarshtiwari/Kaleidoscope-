@@ -1,103 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fitsSystemWindows="false"
-tools:context="com.github.iamutkarshtiwari.kaleidoscope.activity.MovieDetailActivity">
-
-<android.support.design.widget.AppBarLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/toolbar_bg"
-    android:theme="@style/AppTheme.AppBarOverlay">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:background="@color/searchBGColor"
+    tools:context="com.github.iamutkarshtiwari.kaleidoscope.activity.MovieDetailActivity">
 
-
-    <LinearLayout
-        android:id="@+id/kaleidoscope_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/search_bar_height"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="@dimen/status_bar_height"
-        android:clickable="false"
-        android:orientation="horizontal"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
-
-        <RelativeLayout
-            android:id="@+id/search_bar_layout"
-            android:layout_width="0dp"
-            android:layout_weight="6"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/kaleidoscope_logo"
-            android:background="@drawable/ripple"
-            android:clickable="true"
-            android:focusable="true">
-
-            <ImageView
-                android:id="@+id/search_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:clickable="false"
-                android:src="@drawable/ic_search" />
-
-            <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:clickable="false"
-                android:gravity="center"
-                android:text="@string/kaleidoscope"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                app:fontName="MyriadPro" />
-
-        </RelativeLayout>
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/search_bar_layout"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-    </LinearLayout>
-
-
-
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        style="@style/TabStyle"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:tabGravity="fill"
-        app:tabIndicatorHeight="1dp"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed" />
-</android.support.design.widget.AppBarLayout>
+        android:background="@drawable/toolbar_bg"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
 
+        <LinearLayout
+            android:id="@+id/kaleidoscope_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="@dimen/status_bar_height"
+            android:clickable="false"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-<android.support.v4.view.ViewPager
-    android:id="@+id/view_pager"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginTop="4dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/search_bar_layout"
+                android:layout_weight="1"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Hello" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/transparent">
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favourite_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_star_hollow" />
 
 
 </android.support.design.widget.CoordinatorLayout>

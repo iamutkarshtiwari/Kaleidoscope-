@@ -9,6 +9,7 @@
     <string name="kaleidoscope_subtitle">WHERE COLORS COME TO LIFE</string>
     <string name="search_bar_text">What are you looking for?</string>
     <string name="find_next_fav">Find your next favourite thing</string>
+    <string name="movie">Movie</string>
 
     <string-array name="home_tab_names">
         <item>Discover Movies</item>

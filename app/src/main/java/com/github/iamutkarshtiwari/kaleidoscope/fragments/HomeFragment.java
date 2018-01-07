@@ -86,6 +86,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                Movie selectedMovie = mAdapter.getAdapterData().get(position);
+                intent.putExtra("parcel_data", selectedMovie);
                 startActivity(intent);
             }
         };
@@ -159,9 +161,11 @@ public class HomeFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.submenu_popularity) {
+            mAdapter.clearAdapterData();
             loadFromNetwork(ORDER_BY_POPULARITY);
             return true;
         } else if (id == R.id.submenu_top_rated) {
+            mAdapter.clearAdapterData();
             loadFromNetwork(ORDER_BY_TOP_RATED);
             return true;
         }

@@ -13,7 +13,6 @@
         android:background="@drawable/toolbar_bg"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
         <LinearLayout
             android:id="@+id/kaleidoscope_bar"
             android:layout_width="match_parent"
@@ -56,7 +55,7 @@
                     android:text="@string/kaleidoscope"
                     android:textAlignment="center"
                     android:textColor="@color/colorAccent"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:fontName="MyriadPro" />
 
@@ -72,9 +71,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
         </LinearLayout>
-
-
-
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
