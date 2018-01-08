@@ -67,17 +67,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // Downloads the movie image from url
         Picasso.with(this)
-                .load(ApiBase.POSTER_BASE + movie.getPoster_path())
+                .load(ApiBase.POSTER_BASE + movie.getPosterPath())
                 .fit()
                 .error(this.getResources().getDrawable(R.drawable.no_image_found))
                 .into(moviePoster);
 
         // Format price to currency style
         DecimalFormat formatter = new DecimalFormat("#.#");
-        String rating = formatter.format(movie.getVote_average());
+        String rating = formatter.format(movie.getVoteAverage());
         movieRating.setText(rating);
         movieTitle.setText(movie.getTitle());
-        String releaseDate = movie.getRelease_date();
+        String releaseDate = movie.getReleaseDate();
         movieReleaseDate.setText(String.format("%s", releaseDate.split("-")[0]));
         moviePlot.setText(movie.getOverview());
     }

@@ -29,7 +29,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".activity.MovieDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

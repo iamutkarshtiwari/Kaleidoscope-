@@ -47,21 +47,21 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
         // Downloads the movie image from url
         Picasso.with(activity)
-                .load(ApiBase.POSTER_BASE + items.get(position).getPoster_path())
+                .load(ApiBase.POSTER_BASE + items.get(position).getPosterPath())
                 .fit()
                 .error(activity.getResources().getDrawable(R.drawable.no_image_found))
                 .into(holder.movieImage);
 
         // Format price to currency style
         DecimalFormat formatter = new DecimalFormat("#.#");
-        String rating = formatter.format(items.get(position).getVote_average());
+        String rating = formatter.format(items.get(position).getVoteAverage());
         holder.movieRating.setText(rating);
         holder.movieName.setText(items.get(position).getTitle());
-        String releaseDate = items.get(position).getRelease_date();
+        String releaseDate = items.get(position).getReleaseDate();
         holder.movieYear.setText(String.format("%s", releaseDate.split("-")[0]));
 
         // Generate genres label
-        ArrayList<Integer> genreList = items.get(position).getGenre_ids();
+        ArrayList<Integer> genreList = items.get(position).getGenreIds();
         String genreLabel = "";
         String separator = "";
         for (int genre : genreList) {
