@@ -15,4 +15,6 @@
     <color name="movieDetailColor">#555555</color>
     <color name="colorAppBg">#F1F1F1</color>
     <color name="colorFabBg">#CDFFCC</color>
+    <color name="colorDivider">#abaaaa</color>
+    <color name="colorDetailIcons">#89BA15</color>
 </resources>

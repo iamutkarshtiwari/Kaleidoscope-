@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Movie implements Parcelable {
 
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
         @Override
@@ -36,6 +37,10 @@ public class Movie implements Parcelable {
     private int revenue;
     private int runtime;
     private int budget;
+    @SerializedName("popularity")
+    private double popularity;
+    @SerializedName("vote_count")
+    private int voteCount;
     @SerializedName("genre_ids")
     private ArrayList<Integer> genreIds;
 
@@ -50,6 +55,8 @@ public class Movie implements Parcelable {
         revenue = in.readInt();
         runtime = in.readInt();
         budget = in.readInt();
+        popularity = in.readDouble();
+        voteCount = in.readInt();
         if (in.readByte() == 0x01) {
             genreIds = new ArrayList<Integer>();
             in.readList(genreIds, Integer.class.getClassLoader());
@@ -138,6 +145,22 @@ public class Movie implements Parcelable {
         this.budget = budget;
     }
 
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
     public ArrayList<Integer> getGenreIds() {
         return genreIds;
     }
@@ -163,6 +186,8 @@ public class Movie implements Parcelable {
         dest.writeInt(revenue);
         dest.writeInt(runtime);
         dest.writeInt(budget);
+        dest.writeDouble(popularity);
+        dest.writeInt(voteCount);
         if (genreIds == null) {
             dest.writeByte((byte) (0x00));
         } else {

@@ -1,5 +1,6 @@
 package com.github.iamutkarshtiwari.kaleidoscope.activity;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,9 +28,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_title) MyTextView toolbarTitle;
     @BindView(R.id.favourite_fab) FloatingActionButton fab;
-    @BindView(R.id.movie_title) MyTextView movieTitle;
-    @BindView(R.id.movie_release_date) MyTextView movieReleaseDate;
+//    @BindView(R.id.movie_title) MyTextView movieTitle;
+//    @BindView(R.id.movie_release_date) MyTextView movieReleaseDate;
     @BindView(R.id.movie_rating) MyTextView movieRating;
+    @BindView(R.id.movie_popularity) MyTextView moviePopularity;
     @BindView(R.id.movie_plot) MyTextView moviePlot;
     @BindView(R.id.movie_image) ImageView moviePoster;
 
@@ -72,13 +74,15 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .error(this.getResources().getDrawable(R.drawable.no_image_found))
                 .into(moviePoster);
 
-        // Format price to currency style
+        Resources res = getResources();
+        // Format rating to one decimal place
         DecimalFormat formatter = new DecimalFormat("#.#");
         String rating = formatter.format(movie.getVoteAverage());
-        movieRating.setText(rating);
-        movieTitle.setText(movie.getTitle());
+        movieRating.setText(res.getString(R.string.rating_format, rating));
+        formatter = new DecimalFormat("#");
+        moviePopularity.setText(formatter.format(movie.getPopularity()));
         String releaseDate = movie.getReleaseDate();
-        movieReleaseDate.setText(String.format("%s", releaseDate.split("-")[0]));
+//        movieReleaseDate.setText(String.format("%s", releaseDate.split("-")[0]));
         moviePlot.setText(movie.getOverview());
     }
 
