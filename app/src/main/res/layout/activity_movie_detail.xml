@@ -333,6 +333,53 @@
                 app:fontName="MyriadPro"
                 tools:text="Kung Fu Panda 3 (2016)" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/movie_year_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_calendar" />
+
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
+                    android:id="@+id/movie_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/movie_year_icon"
+                    android:textColor="@color/movieDetailColor"
+                    android:textSize="10sp"
+                    tools:text="2012" />
+
+                <ImageView
+                    android:id="@+id/movie_reel_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/movie_year"
+                    android:src="@drawable/ic_reel" />
+
+                <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
+                    android:id="@+id/movie_genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toRightOf="@id/movie_reel_icon"
+                    android:textColor="@color/movieDetailColor"
+                    android:textSize="10sp"
+
+                    tools:text="Action, Drama, Horror" />
+
+
+            </RelativeLayout>
+
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

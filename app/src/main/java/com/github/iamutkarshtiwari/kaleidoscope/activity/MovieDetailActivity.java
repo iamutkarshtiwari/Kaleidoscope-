@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
+import com.github.iamutkarshtiwari.kaleidoscope.models.Genres;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,14 +33,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     FloatingActionButton fab;
     @BindView(R.id.rating_bar)
     MaterialRatingBar ratingBar;
-    //    @BindView(R.id.movie_title) MyTextView movieTitle;
-//    @BindView(R.id.movie_release_date) MyTextView movieReleaseDate;
+    @BindView(R.id.movie_title) MyTextView movieTitle;
+    @BindView(R.id.movie_year) MyTextView movieReleaseYear;
     @BindView(R.id.movie_rating)
     MyTextView movieRating;
     @BindView(R.id.movie_popularity)
     MyTextView moviePopularity;
     @BindView(R.id.movie_votes)
     MyTextView movieVotes;
+    @BindView(R.id.movie_genres)
+            MyTextView movieGenres;
     //    @BindView(R.id.movie_plot)
     MyTextView moviePlot;
     @BindView(R.id.movie_image)
@@ -89,12 +93,24 @@ public class MovieDetailActivity extends AppCompatActivity {
         String rating = formatter.format(movie.getVoteAverage());
         movieRating.setText(res.getString(R.string.rating_format, rating));
         ratingBar.setRating(Float.parseFloat(formatter.format(movie.getVoteAverage())));
+        
         formatter = new DecimalFormat("#");
         moviePopularity.setText(formatter.format(movie.getPopularity()));
-        String releaseDate = movie.getReleaseDate();
+        movieTitle.setText(movie.getTitle());
         movieVotes.setText(String.valueOf(movie.getVoteCount()));
-//        movieReleaseDate.setText(String.format("%s", releaseDate.split("-")[0]));
+        String releaseDate = movie.getReleaseDate();
+        movieReleaseYear.setText(String.format("%s", releaseDate.split("-")[0]));
 //        moviePlot.setText(movie.getOverview());
+
+        // Generate genres label
+        ArrayList<Integer> genreList = movie.getGenreIds();
+        String genreLabel = "";
+        String separator = "";
+        for (int genre : genreList) {
+            genreLabel += separator + Genres.GENRE_MAP.get(genre);
+            separator = ", ";
+        }
+        movieGenres.setText(String.format("%s", genreLabel));
     }
 
     @Override
