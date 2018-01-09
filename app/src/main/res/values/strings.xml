@@ -11,6 +11,7 @@
     <string name="find_next_fav">Find your next favourite thing</string>
     <string name="movie">Movie</string>
     <string name="rating_format">%1$s/10</string>
+    <string name="vote_count">Vote Count</string>
 
     <string-array name="home_tab_names">
         <item>Discover Movies</item>
