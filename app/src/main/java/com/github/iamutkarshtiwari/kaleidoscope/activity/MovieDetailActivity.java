@@ -33,8 +33,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     FloatingActionButton fab;
     @BindView(R.id.rating_bar)
     MaterialRatingBar ratingBar;
-    @BindView(R.id.movie_title) MyTextView movieTitle;
-    @BindView(R.id.movie_year) MyTextView movieReleaseYear;
+    @BindView(R.id.movie_title)
+    MyTextView movieTitle;
+    @BindView(R.id.movie_year)
+    MyTextView movieReleaseYear;
     @BindView(R.id.movie_rating)
     MyTextView movieRating;
     @BindView(R.id.movie_popularity)
@@ -42,8 +44,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.movie_votes)
     MyTextView movieVotes;
     @BindView(R.id.movie_genres)
-            MyTextView movieGenres;
-    //    @BindView(R.id.movie_plot)
+    MyTextView movieGenres;
+    @BindView(R.id.movie_plot)
     MyTextView moviePlot;
     @BindView(R.id.movie_image)
     ImageView moviePoster;
@@ -93,14 +95,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         String rating = formatter.format(movie.getVoteAverage());
         movieRating.setText(res.getString(R.string.rating_format, rating));
         ratingBar.setRating(Float.parseFloat(formatter.format(movie.getVoteAverage())));
-        
+
         formatter = new DecimalFormat("#");
         moviePopularity.setText(formatter.format(movie.getPopularity()));
         movieTitle.setText(movie.getTitle());
         movieVotes.setText(String.valueOf(movie.getVoteCount()));
         String releaseDate = movie.getReleaseDate();
         movieReleaseYear.setText(String.format("%s", releaseDate.split("-")[0]));
-//        moviePlot.setText(movie.getOverview());
+        moviePlot.setText(movie.getOverview());
 
         // Generate genres label
         ArrayList<Integer> genreList = movie.getGenreIds();
