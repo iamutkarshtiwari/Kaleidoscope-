@@ -343,8 +343,8 @@
 
                 <ImageView
                     android:id="@+id/movie_year_icon"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/ic_calendar" />
 
                 <com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView
@@ -354,13 +354,13 @@
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@id/movie_year_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     tools:text="2012" />
 
                 <ImageView
                     android:id="@+id/movie_reel_icon"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/movie_year"
                     android:src="@drawable/ic_reel" />
@@ -373,7 +373,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_toRightOf="@id/movie_reel_icon"
                     android:textColor="@color/movieDetailColor"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     tools:text="Action, Drama, Horror" />
 
             </RelativeLayout>
