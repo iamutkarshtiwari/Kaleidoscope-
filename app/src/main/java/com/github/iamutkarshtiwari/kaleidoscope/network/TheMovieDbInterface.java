@@ -5,7 +5,9 @@ import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.observables.ConnectableObservable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -17,8 +19,8 @@ public interface TheMovieDbInterface {
 
     @GET("movie/popular/")
     Observable<ResponseList> getPopularMovies(@Query("page") int page,
-                                          @Query("language") String language,
-                                          @Query("api_key") String api_key);
+                                            @Query("language") String language,
+                                            @Query("api_key") String api_key);
 
     @GET("movie/top_rated/")
     Observable<ResponseList> getTopRatedMovies(@Query("page") int page,
@@ -27,10 +29,10 @@ public interface TheMovieDbInterface {
 
     @GET("discover/movie/")
     Observable<ResponseList> getDiscoverMovies(@Query("page") int page,
-                                               @Query("language") String language,
-                                               @Query("api_key") String api_key,
-                                               @Query("sort_by") String sort_by,
-                                               @Query("include_adult") Boolean include_adult,
-                                               @Query("include_video") Boolean include_video);
+                                                                     @Query("language") String language,
+                                                                     @Query("api_key") String api_key,
+                                                                     @Query("sort_by") String sort_by,
+                                                                     @Query("include_adult") Boolean include_adult,
+                                                                     @Query("include_video") Boolean include_video);
 
 }

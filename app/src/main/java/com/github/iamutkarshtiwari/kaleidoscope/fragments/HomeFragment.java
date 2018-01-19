@@ -14,34 +14,30 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
-import com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity;
+import com.github.iamutkarshtiwari.kaleidoscope.RxApplication;
 import com.github.iamutkarshtiwari.kaleidoscope.activity.MovieDetailActivity;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.HomeRecyclerAdapter;
 import com.github.iamutkarshtiwari.kaleidoscope.adapters.ItemClickListener;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
-import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
-import com.github.iamutkarshtiwari.kaleidoscope.network.NetworkLoader;
+import com.github.iamutkarshtiwari.kaleidoscope.network.NetworkInteractor;
+import com.github.iamutkarshtiwari.kaleidoscope.network.NetworkPresenter;
+import com.github.iamutkarshtiwari.kaleidoscope.network.NetworkService;
 import com.github.iamutkarshtiwari.kaleidoscope.network.TheMovieDbInterface;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.GridColumnCalculator;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment implements NetworkLoader.OnResultReceived {
+public class HomeFragment extends Fragment {
 
 
     private static final String TAG = "KALEIDOSCOPE";
+    private static final String EXTRA_RX = "EXTRA_RX";
     private static final int DISCOVERY_LIST = 1;
     private static final int ORDER_BY_POPULARITY = 2;
     private static final int ORDER_BY_TOP_RATED = 3;
@@ -53,7 +49,9 @@ public class HomeFragment extends Fragment implements NetworkLoader.OnResultRece
     private CompositeDisposable mCompositeDisposable;
     private String mDataSource;
     private TheMovieDbInterface mRequestInterface;
-    private NetworkLoader mNetLoad;
+    private NetworkService service;
+    private boolean rxCallInWorks = false;
+    private NetworkInteractor networkPresenter;
     private HomeRecyclerAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
 
@@ -73,15 +71,6 @@ public class HomeFragment extends Fragment implements NetworkLoader.OnResultRece
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         recyclerView = view.findViewById(R.id.recycler_view);
-        mNetLoad = new NetworkLoader(getContext());
-        mNetLoad.setOnResultListener(this);
-
-        if (this.mDataSource.compareToIgnoreCase("network") == 0) {
-            mNetLoad.loadFromNetwork(DISCOVERY_LIST);
-        } else if (this.mDataSource.compareToIgnoreCase("database") == 0) {
-
-        }
-
 
         // Change column count based on screen orientation
         int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
@@ -103,6 +92,31 @@ public class HomeFragment extends Fragment implements NetworkLoader.OnResultRece
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        service = ((RxApplication) getActivity().getApplication()).getNetworkService();
+        networkPresenter = new NetworkPresenter(service);
+        networkPresenter.bindView(this);
+
+
+        if (this.mDataSource.compareToIgnoreCase("network") == 0) {
+            networkPresenter.loadRetroData(DISCOVERY_LIST);
+            Log.d(TAG, "Started the call");
+        } else if (this.mDataSource.compareToIgnoreCase("database") == 0) {
+
+        }
+    }
+
+    public void showRxResults(ArrayList<Movie> movieList){
+        makeToast("Request", Toast.LENGTH_SHORT);
+        mAdapter.setAdapterData(movieList);
+    }
+
+    public void showRxFailure(Throwable throwable){
+        makeToast("Error making network request", Toast.LENGTH_SHORT);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,28 +124,50 @@ public class HomeFragment extends Fragment implements NetworkLoader.OnResultRece
 
         if (id == R.id.submenu_popularity) {
             mAdapter.clearAdapterData();
-            mNetLoad.loadFromNetwork(ORDER_BY_POPULARITY);
+           networkPresenter.loadRetroData(ORDER_BY_POPULARITY);
             return true;
         } else if (id == R.id.submenu_top_rated) {
             mAdapter.clearAdapterData();
-            mNetLoad.loadFromNetwork(ORDER_BY_TOP_RATED);
+            networkPresenter.loadRetroData(ORDER_BY_TOP_RATED);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    
+
+    public void makeToast(String message, int duration) {
+        Toast.makeText(getContext(), message, duration).show();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        networkPresenter.rxUnSubscribe();
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(EXTRA_RX, rxCallInWorks);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     @Override
     public void onDestroy() {
-        mNetLoad.clearCompositeDisposable();
+        networkPresenter.rxUnSubscribe();
         super.onDestroy();
     }
 
-    @Override
-    public void getResult(ResponseList responseList) {
-        if (mAdapter != null) {
-            mAdapter.setAdapterData(new ArrayList<>(responseList.getResults()));
-        }
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        networkPresenter.unBindView();
     }
+
 }

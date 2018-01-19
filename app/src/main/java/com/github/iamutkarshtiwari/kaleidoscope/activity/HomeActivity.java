@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
         try {
             Picasso.setSingletonInstance(built);
         } catch (IllegalStateException exception) {
-            Log.e("Kaleidoscope", "Singleton already exists");
+            Log.d("Kaleidoscope", "Picasso singleton already exists");
         }
     }
 
