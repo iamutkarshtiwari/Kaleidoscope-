@@ -63,7 +63,7 @@ public class NetworkService {
                 addToCache(listType, mPreparedObservable);
             } else {
 
-                Log.e(TAG, "Called from cache");
+                Log.e(TAG, "Resolved from cache");
                 mPreparedObservable = getFromCache(listType);
             }
         } catch (Throwable e) {

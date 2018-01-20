@@ -27,7 +27,8 @@
         
         <activity
             android:name=".activity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"/>
 
         <activity android:name=".activity.MovieDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" >
