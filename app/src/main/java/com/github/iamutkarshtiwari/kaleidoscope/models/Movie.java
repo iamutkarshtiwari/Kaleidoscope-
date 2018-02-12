@@ -29,6 +29,8 @@ public class Movie implements Parcelable {
     private String posterPath;
     @SerializedName("backdrop_path")
     private String backdropPath;
+    @SerializedName("id")
+    private int id;
     @SerializedName("release_date")
     private String releaseDate;
     private String overview;
@@ -43,8 +45,8 @@ public class Movie implements Parcelable {
     private int voteCount;
     @SerializedName("genre_ids")
     private ArrayList<Integer> genreIds;
-
     protected Movie(Parcel in) {
+        id = in.readInt();
         voteAverage = in.readDouble();
         title = in.readString();
         posterPath = in.readString();
@@ -63,6 +65,14 @@ public class Movie implements Parcelable {
         } else {
             genreIds = null;
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getVoteAverage() {
@@ -176,6 +186,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeDouble(voteAverage);
         dest.writeString(title);
         dest.writeString(posterPath);
