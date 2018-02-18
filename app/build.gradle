@@ -57,4 +57,8 @@ dependencies {
     compile 'com.github.techery:properratingbar:0.0.5'
     compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
     compile 'com.iarcuschin:simpleratingbar:0.1.5'
+    compile 'nl.qbusict:cupboard:2.1.4'
+    compile 'nl.littlerobots:cupboard-tools:0.2.0'
+
+
 }

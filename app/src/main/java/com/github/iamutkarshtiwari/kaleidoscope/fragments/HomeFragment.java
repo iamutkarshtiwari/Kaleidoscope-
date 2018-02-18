@@ -3,6 +3,7 @@ package com.github.iamutkarshtiwari.kaleidoscope.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
@@ -33,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements NetworkPresenter.OnRetroCallListener {
 
 
     private static final String TAG = "KALEIDOSCOPE";
@@ -45,6 +47,8 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.tab_title)
     MyTextView fragmentTitle;
+    ProgressBar progressBar;
+    MyTextView noResultMessage;
 
     private CompositeDisposable mCompositeDisposable;
     private String mDataSource;
@@ -72,6 +76,9 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         recyclerView = view.findViewById(R.id.recycler_view);
 
+        progressBar = view.findViewById(R.id.progress_bar);
+        noResultMessage = view.findViewById(R.id.no_result_text);
+
         // Change column count based on screen orientation
         int numberOfColumns = GridColumnCalculator.calculateNoOfColumns(getContext());
 
@@ -80,7 +87,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
                 Movie selectedMovie = mAdapter.getAdapterData().get(position);
-                intent.putExtra("parcel_data", selectedMovie);
+                intent.putExtra("movie_data", selectedMovie);
                 startActivity(intent);
             }
         };
@@ -110,7 +117,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void showRxResults(ArrayList<Movie> movieList){
-        makeToast("Request", Toast.LENGTH_SHORT);
         mAdapter.setAdapterData(movieList);
     }
 
@@ -124,7 +130,7 @@ public class HomeFragment extends Fragment {
 
         if (id == R.id.submenu_popularity) {
             mAdapter.clearAdapterData();
-           networkPresenter.loadRetroData(ORDER_BY_POPULARITY);
+            networkPresenter.loadRetroData(ORDER_BY_POPULARITY);
             return true;
         } else if (id == R.id.submenu_top_rated) {
             mAdapter.clearAdapterData();
@@ -170,4 +176,32 @@ public class HomeFragment extends Fragment {
         networkPresenter.unBindView();
     }
 
+    private void toggleProgressBar(boolean isShown) {
+        int visibility = isShown ? View.VISIBLE : View.GONE;
+        progressBar.setVisibility(visibility);
+    }
+
+    private void toggleErrorMessage(boolean isShown) {
+        int visibility = isShown ? View.VISIBLE : View.GONE;
+        noResultMessage.setVisibility(visibility);
+    }
+
+    @Override
+    public void onCallStarted() {
+        toggleProgressBar(true);
+        toggleErrorMessage(false);
+    }
+
+    @Override
+    public void onError() {
+        toggleProgressBar(false);
+        toggleErrorMessage(true);
+
+    }
+
+    @Override
+    public void onSuccess() {
+        toggleProgressBar(false);
+        toggleErrorMessage(false);
+    }
 }

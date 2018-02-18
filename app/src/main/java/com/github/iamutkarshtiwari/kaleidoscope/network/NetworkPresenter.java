@@ -4,16 +4,27 @@ package com.github.iamutkarshtiwari.kaleidoscope.network;
  * Created by utkarshtiwari on 16/01/18.
  */
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.github.iamutkarshtiwari.kaleidoscope.R;
 import com.github.iamutkarshtiwari.kaleidoscope.fragments.HomeFragment;
 import com.github.iamutkarshtiwari.kaleidoscope.models.ResponseList;
+import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 @SuppressWarnings("unchecked")
 public class NetworkPresenter implements NetworkInteractor {
+
+    public interface OnRetroCallListener {
+        void onCallStarted();
+        void onError();
+        void onSuccess();
+    }
 
     private static final String TAG = "KALEIDOSCOPE";
 
@@ -22,6 +33,7 @@ public class NetworkPresenter implements NetworkInteractor {
     private Disposable mDisposable;
     private Observable<ResponseList> mResponseListObservable;
     private int mCurrentObservableId;
+    private OnRetroCallListener onRetroCallListener;
 
 
     public NetworkPresenter(NetworkService service) {
@@ -30,6 +42,7 @@ public class NetworkPresenter implements NetworkInteractor {
 
     public void bindView(HomeFragment view) {
         this.view = view;
+        onRetroCallListener = view;
     }
 
     public void unBindView() {
@@ -39,13 +52,14 @@ public class NetworkPresenter implements NetworkInteractor {
 
     public void loadRetroData(int listType) {
         mCurrentObservableId = listType;
+        onRetroCallListener.onCallStarted();
         mResponseListObservable = service.getPreparedObservable(listType);
         rxSubscribe();
     }
 
     private void handleResponse(ResponseList responseList) {
         Log.d(TAG, "" + responseList.getResults().size());
-
+        onRetroCallListener.onSuccess();
         if (this.view != null) {
             this.view.showRxResults(responseList.getResults());
             mDisposable.dispose();
@@ -55,6 +69,7 @@ public class NetworkPresenter implements NetworkInteractor {
 
     private void handleError(Throwable error) {
         view.showRxFailure(error);
+        onRetroCallListener.onError();
         Log.e("ERROR: ", error.getLocalizedMessage());
     }
 
@@ -69,5 +84,4 @@ public class NetworkPresenter implements NetworkInteractor {
         mDisposable = mResponseListObservable.subscribe(this::handleResponse, this::handleError);
 
     }
-
 }

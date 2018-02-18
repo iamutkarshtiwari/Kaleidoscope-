@@ -12,6 +12,20 @@
     <string name="movie">Movie</string>
     <string name="rating_format">%1$s/10</string>
     <string name="vote_count">Vote Count</string>
+    <string name="sysnopsis_title">Synopsis</string>
+    <string name="no_movie_selected">No movie selected</string>
+    <string name="added_to_favorite">Added to favorite</string>
+    <string name="removed_from_favorite">Removed from favorite</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_reviews">No reviews</string>
+    <string name="no_trailers">No trailers</string>
+    <string name="share">Share</string>
+    <string name="movie_title" />
+    <string name="trailers">Trailers</string>
+    <string name="show_favorites">Show favorites</string>
+    <string name="movie_detail_add_favorite">Add to favorite</string>
+    <string name="no_results_found">No results found :(</string>
+
 
     <string-array name="home_tab_names">
         <item>Discover Movies</item>

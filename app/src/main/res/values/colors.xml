@@ -17,4 +17,7 @@
     <color name="colorFabBg">#CDFFCC</color>
     <color name="colorDivider">#abaaaa</color>
     <color name="colorDetailIcons">#89BA15</color>
+    <color name="colorMovieDetails">#7C8085</color>
+    <color name="colorMoviePagerIndicator">#58AECE</color>
+    <color name="colorMovieFragmentBg">#F8F8F8</color>
 </resources>

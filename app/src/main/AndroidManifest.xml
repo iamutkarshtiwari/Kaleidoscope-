@@ -37,6 +37,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.iamutkarshtiwari.kaleidoscope.activity.HomeActivity" />
         </activity>
+
+        <provider
+            android:name=".providers.FavoriteMovieProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"/>
     </application>
 
 </manifest>

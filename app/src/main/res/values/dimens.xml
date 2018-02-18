@@ -7,4 +7,6 @@
     <dimen name="status_bar_height">28dp</dimen>
     <dimen name="detail_action_bar">66dp</dimen>
     <dimen name="tab_bar_padding">16dp</dimen>
+    <dimen name="trailer_thumbnail_width">140sp</dimen>
+    <dimen name="trailer_thumbnail_height">100sp</dimen>
 </resources>
