@@ -3,12 +3,9 @@ package com.github.iamutkarshtiwari.kaleidoscope.activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,16 +20,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.iamutkarshtiwari.kaleidoscope.R;
+import com.github.iamutkarshtiwari.kaleidoscope.interfaces.DBUpdateListener;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Genres;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Movie;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Review;
 import com.github.iamutkarshtiwari.kaleidoscope.models.Trailer;
 import com.github.iamutkarshtiwari.kaleidoscope.network.ApiBase;
-import com.github.iamutkarshtiwari.kaleidoscope.providers.FavoriteMovieProvider;
+import com.github.iamutkarshtiwari.kaleidoscope.provider.UpdateFavouriteMovieDBTask;
 import com.github.iamutkarshtiwari.kaleidoscope.tasks.CommonAsyncTask;
 import com.github.iamutkarshtiwari.kaleidoscope.tasks.ReviewsAsyncTask;
 import com.github.iamutkarshtiwari.kaleidoscope.tasks.TrailersAsyncTask;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.Constants;
+import com.github.iamutkarshtiwari.kaleidoscope.utils.FavoriteMovieManager;
 import com.github.iamutkarshtiwari.kaleidoscope.utils.MyTextView;
 import com.squareup.picasso.Picasso;
 
@@ -42,10 +41,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class MovieDetailActivity extends AppCompatActivity  {
+import static com.github.iamutkarshtiwari.kaleidoscope.provider.UpdateFavouriteMovieDBTask.ADDED_TO_FAVORITE;
+
+public class MovieDetailActivity extends AppCompatActivity implements View.OnClickListener, DBUpdateListener {
     private Movie mMovie;
     private boolean mAddedInFavorite;
     private ArrayList<Trailer> mTrailers;
@@ -53,6 +53,7 @@ public class MovieDetailActivity extends AppCompatActivity  {
     private Trailer mMainTrailer;
     private TrailersAsyncTask trailersAsyncTask;
     private ReviewsAsyncTask reviewsAsyncTask;
+    private FavoriteMovieManager mFavoriteMovieManager;
 
     @BindView(R.id.toolbar_title)
     MyTextView toolbarTitle;
@@ -105,20 +106,18 @@ public class MovieDetailActivity extends AppCompatActivity  {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        mFavoriteMovieManager = FavoriteMovieManager.getInstance(this);
+
         toolbarTitle.setText(R.string.movie);
+        floatingActionButton.setOnClickListener(this);
 
         Log.e("Kaledioscope", "Movie mMovei initialized");
         Movie mMovie = getIntent().getParcelableExtra("movie_data");
         displayMovieData(mMovie);
 
-        if (mMovie != null) {
-            mAddedInFavorite = FavoriteMovieProvider.getMovie(this, mMovie.getId()) != null;
-            int visibility = mAddedInFavorite ? View.VISIBLE : View.GONE;
-            favoriteLabel.setVisibility(visibility);
-
-            int id = mAddedInFavorite ? R.drawable.ic_star_fill : R.drawable.ic_star_hollow;
-            floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), id));
-        }
+        mAddedInFavorite = mFavoriteMovieManager.getBoolean(mMovie.getId());
+        int id = mAddedInFavorite ? R.drawable.ic_star_fill : R.drawable.ic_star_hollow;
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), id));
 
         if (savedInstanceState != null) {
             mTrailers = savedInstanceState.getParcelableArrayList(Constants.TRAILERS);
@@ -131,6 +130,43 @@ public class MovieDetailActivity extends AppCompatActivity  {
             executeTasks(mMovie);
         }
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.favourite_fab:
+                //Update favorite movie database accordingly
+                //If movie exists in fav db, delete it, Otherwise save it in db
+                UpdateFavouriteMovieDBTask favouriteMovieDBTask = new UpdateFavouriteMovieDBTask(this, mMovie, this);
+                favouriteMovieDBTask.execute();
+                break;
+
+        }
+    }
+
+    @Override
+    public void onSuccess(final int operationType) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String operation;
+                if (operationType == ADDED_TO_FAVORITE) {
+                    operation = "added to favorite";
+                    mFavoriteMovieManager.putBoolean(mMovie.getId(), true);
+                } else {
+                    mFavoriteMovieManager.putBoolean(mMovie.getId(), false);
+                }
+                mAddedInFavorite = !mAddedInFavorite;
+                int id = mAddedInFavorite ? R.drawable.ic_star_fill : R.drawable.ic_star_hollow;
+                floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), id));
+            }
+        });
+    }
+
+    @Override
+    public void onFailure() {
 
     }
 
@@ -292,19 +328,6 @@ public class MovieDetailActivity extends AppCompatActivity  {
         outState.putBoolean(Constants.FAVORITE, mAddedInFavorite);
         outState.putParcelableArrayList(Constants.TRAILERS, mTrailers);
         outState.putParcelableArrayList(Constants.REVIEWS, mReviews);
-    }
-
-    @OnClick(R.id.favourite_fab)
-    public void toggleFavorite() {
-        //TODO Mladen add fade out/fade in animation for FAB
-        if (!mAddedInFavorite) {
-            FavoriteMovieProvider.putMovie(this, mMovie);
-        } else {
-            FavoriteMovieProvider.deleteMovie(this, mMovie.getId());
-        }
-        mAddedInFavorite = !mAddedInFavorite;
-        int id = mAddedInFavorite ? R.drawable.ic_star_fill : R.drawable.ic_star_hollow;
-        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), id));
     }
 
     @Override

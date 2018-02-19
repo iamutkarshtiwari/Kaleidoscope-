@@ -39,8 +39,8 @@
         </activity>
 
         <provider
-            android:name=".providers.FavoriteMovieProvider"
-            android:authorities="${applicationId}.provider"
+            android:name=".provider.MovieProvider"
+            android:authorities="com.github.iamutkarshtiwari.kaleidoscope"
             android:exported="false"/>
     </application>
 
